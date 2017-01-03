@@ -8,7 +8,7 @@ While introducing [vector-based maps](https://github.com/tc3t/dfglib/tree/master
 
 Performance benchmarking is a tricky field and while the results provided are made with the intention of being correct enough to aid evaluating the performance in some special use cases, the reader should be aware that the author can not guarantee the accuracy of the results or even the methological correctness. If you intend to make decision based on the results presented here, it's strongly recommended to personally verify the used test code. If flaws are detected, reports and corrections would be highly appreciated.
 
- ### Short summary
+### Short summary
 
 The benchmark does 50000 inserts to random positions starting from empty vector using:
 * Containers
@@ -37,7 +37,7 @@ The benchmark does 50000 inserts to random positions starting from empty vector 
 
 ## Benchmark implementation
 
-The detailed  test code can be found from [here](dfgTestContMapVectorPerformance.cpp), but essentially the code measured the time taken by the following loop:
+The detailed  test code, that uses revision [0b4ca6761e3757516d81b724385cd0cc6d2a9988](https://github.com/tc3t/dfglib/tree/0b4ca6761e3757516d81b724385cd0cc6d2a9988) of dfglib, can be found from [here](dfgTestContMapVectorPerformance.cpp), but essentially the code measured the time taken to run the following code:
 ```C++
 for (int i = 0; i < 50000; ++i)
     cont.insert(cont.begin() + randomIndex, randomElement);
@@ -47,7 +47,7 @@ The random indexes were read from a file (i.e. were the same for all implementat
 
 ## Results
 
-The following figures show runtimes in various tests cases (the lower the faster). Each test was run 5 times so there are 5 points for each implementation giving some indication of the variance. The raw result table can be found from [here](benchmarkVectorInsert.csv).
+The following figures show run times in various tests cases (the lower the faster). Each test was run 5 times so there are 5 points for each implementation giving some indication of the variance. The raw result table can be found from [here](benchmarkVectorInsert.csv).
 
 <br>
 
