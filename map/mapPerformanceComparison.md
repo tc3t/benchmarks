@@ -24,7 +24,7 @@ for (int i = 0; i < 50000; ++i)
 
 Below is a chart showing the times for different maps and a table with relative times (the raw result table can be found from [here](benchmarkMapVectorInsertPerformance_MSVC_2015_u3_32_release.csv).)
 
-![alt text][charts/insert]
+![alt text](charts/insert.png)
 
 | Container     | Relative time | 
 | ------------- | ------------- |
