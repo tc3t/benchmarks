@@ -9,7 +9,7 @@ This document present some performance aspects related to various map implementa
 * dfglib::MapVectorAoS
 * dfglib::MapVectorSoA
 
-Instead of looking at performance as function of element count, the focus is to give concrete examples at some arbitrarily chosen element count and use case. All code was compiled with 32-bit MSVC2015 update 3.
+Instead of looking at performance as function of element count, the focus is to give concrete examples at some arbitrarily chosen element count and use case. All code was compiled with 32-bit MSVC2015 update 3 and boost 1.61.0.
 
 ## 1. Case study: Insert performance with \<int, int\> maps
 
@@ -26,12 +26,12 @@ Below is a chart showing the times for different maps and a table with relative 
 
 ![alt text](charts/insert.png)
 
-| Container     | Relative time | 
+| Container     | Relative time (median time) | 
 | ------------- | ------------- |
 | Interleaved std::vector (50000 pairs) | 0.22 |
 | Interleaved boost::vector (50000 pairs) | 0.29 |
 | MapVectorAoS push-sort-unique, reserved | 1.00 |
-| MapVectorAoS push-sort-unique, not reserved |1.01 |
+| MapVectorAoS push-sort-unique, not reserved | 1.01 |
 | std::unordered_map | 1.65 |
 | std::map | 2.48 |
 | MapVectorAoS, sorted, not reserved | 32.85 |
@@ -44,11 +44,37 @@ Below is a chart showing the times for different maps and a table with relative 
 | MapVectorAoS, not sorted, not reserved | 80.38 |
 | MapVectorAoS, not sorted, reserved | 80.49 |
 
-The graph and the table shows that the differences are big: almost two orders of magnitude. Notes:
+The graph and the table shows that the differences are big as expected: almost two orders of magnitude. Notes:
 
 * Both sorted MapVector's are much faster than boost::flat_map. This is essentially a concequence of differences in vector insert performance, which has been analysed in a [separate document](https://github.com/tc3t/benchmarks/blob/master/vectorInsert/vectorInsertBenchmarking.md).
 
 * The fastest time is achieved with vector-based map, which allows the use of push-sort-unique -technique, i.e. push everything to map, sort and remove duplicates.
+
+
+## 2. Case study: Find performance with \<int, int\> maps
+
+This benchmarked find times from the maps constructed in case study 1 using 250000 random keys with find percentage of about 0.25 %. Result are below in graphical form and as table (non-sorted maps are not included in the chart). The raw result table can be found from [here](benchmarkMapVectorFindPerformance_MSVC_2015_u3_32_release.csv)):
+
+![alt text](charts/find.png)
+
+| Container     | Relative time (median time) | 
+| ------------- | ------------- |
+| std::unordered_map | 1.00 |
+| boost::flat_map | 2.39 |
+| MapVectorSoA, sorted | 2.48 (*) |
+| MapVectorAoS, sorted | 2.51 (*) |
+| std::map | 3.75 |
+| MapVectorSoA, not sorted | 296.18 (*) |
+| MapVectorAoS, not sorted | 331.66 (*) |
+
+\(*) Average of two 5 iteration runs.
+
+Notes:
+
+* std::unordered_map is clearly the fastest as expected.
+* boost::flap_map is slightly faster than MapVector's suggesting a quality of implementation issue in MapVector.
+* Vector-based maps are faster than std::map as expected.
+* For non-sorted case that does a linear search, the better performance of MapVectorSoA is reckoned to be the result of better locality when searching keys (SoA has separate arrays for keys and values instead of storing array of pairs).
 
 
 ## Miscellaneous
