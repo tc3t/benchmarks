@@ -11,6 +11,8 @@ This document present some performance aspects related to various map implementa
 
 Instead of looking at performance as function of element count, the focus is to give concrete examples at some arbitrarily chosen element count and use case. All code was compiled with 32-bit MSVC2015 update 3 and boost 1.61.0.
 
+Note that while these benchmarks compare maps, results of tests that only use key's are probably more or less directly translatable to corresponding set-implementations.
+
 ## 1. Example: Insert performance with \<int, int\> maps
 
 This benchmarked insert time of 50000 random integers which resulted to map of size 49936 (i.e. 64 ints were duplicates). The detailed  test code, that uses revision [06f3ceb678b9e39f0462d40378a11fd18145dee3](https://github.com/tc3t/dfglib/tree/06f3ceb678b9e39f0462d40378a11fd18145dee3) of dfglib, can be found from [here](dfgTestContMapVectorPerformance.cpp), but essentially the code measured the time taken by the following loop:
@@ -50,6 +52,7 @@ The graph and the table shows that the differences are big as expected: almost t
 
 * The fastest time is achieved with vector-based map, which allows the use of push-sort-unique -technique, i.e. push everything to map, sort and remove duplicates.
 
+* For vector-based maps, reserve() has practically no effect on the results.
 
 ## 2. Example: Find performance with \<int, int\> maps
 
