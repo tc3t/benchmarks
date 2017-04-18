@@ -1,0 +1,14 @@
+Index: flat_map.h
+===================================================================
+--- flat_map.h	(revision 23)
++++ flat_map.h	(working copy)
+@@ -162,7 +162,8 @@
+ 	auto compare = CompareT();
+ 	auto const it = std::lower_bound(_keys.begin(), _keys.end(), key, compare);
+ 	if (it != _keys.end() && !compare(key, *it))
+-		return iterator(it);
++        return iterator(&*it, &*(_values.begin() + (it - _keys.begin())));
++		//return iterator(it);
+ 	else
+ 		return end();
+ }
