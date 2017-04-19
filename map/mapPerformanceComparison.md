@@ -14,6 +14,10 @@ Instead of looking at performance as function of element count, the focus is to 
 
 Note that while these benchmarks compare maps, results of tests that only use key's are probably more or less directly translatable to corresponding set-implementations.
 
+### Disclaimer
+
+Performance benchmarking is a tricky field and while the results provided are made with the intention of being correct enough to aid evaluating the performance in some special use cases, the reader should be aware that the author can not guarantee the accuracy of the results or even the methological correctness. If you intend to make decision based on the results presented here, it's strongly recommended to personally verify the used test code. If flaws are detected, reports and corrections would be highly appreciated.
+
 ---
 
 ## 1. Example: Insert performance with \<int, int\> maps
