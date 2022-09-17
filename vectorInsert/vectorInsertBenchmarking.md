@@ -26,6 +26,7 @@ The benchmark does 50000 inserts to random positions starting from empty vector 
     * VC2013 (update 5) (32 & 64 bit)
     * VC2015 (update 3) (32 & 64 bit)
     * MinGW 4.8.0
+    * [Update 2022-09-17](#update-2022-09-17) has notes about more recent MSVC compilers
 
 
 #### Key Observations
@@ -33,6 +34,7 @@ The benchmark does 50000 inserts to random positions starting from empty vector 
     * insert() in tested VC versions, which is based on std::rotate, seems slow. Note though that it seems that the implementation has changed to VC2017 RC making it as fast as boost::vector.
 * In tested VC-compilers, insert-performance for trivial types can be highly improved by using a simple memmove() implementation: insert with dfg::Vector\<int\> (that uses memmove-insert) was about 5x faster than std::vector\<int\> on VC2015.
 * Using TrivialPair\<int,int\> instead of std::pair\<int,int\> could be used to improve runtime performance by factor of 2 or more in most cases in MSVC versions. The relevant difference is that the two have different value for std::is_trivially_copyable -type trait, which in turn may affect whether insert() is implementated with std::memmove() or not.
+* Update 2022-09-17: major performance difference remain between std::pair\<int,int\> and "trivial pair", for details see [Update 2022-09-17](#update-2022-09-17)
 
 
 ## Benchmark implementation
@@ -123,3 +125,43 @@ Results showed big runtime differences between compilers and container types.
 * With std::vector, the fastest implementation seemed to be MinGW, but fastest insert times were obtained in MSVC 2015 using either boost::vector or dfglib::Vector.
 
 It's worth mentioning that VC2017 RC has introduced changes to std::vector::insert implementation resulting to std::vector being as fast as other container types (in resolution of these comparisons). However the difference between std::pair and TrivialPair remains making it a notable implementation detail when e.g. implementing AoS-style flat maps.
+
+## Update 2022-09-17
+
+Since MSVC2017, std::is_trivially_copyable_v<std::pair<int,int>> returns true, but the major difference remains in insert times: with simple insert [test code](insertTest.cpp)
+
+    struct SimplePair
+    {
+        SimplePair() = default;
+        SimplePair(int a, int b) : first(a), second(b) {}
+        int first = 0;
+        int second = 0;
+    };
+    ...
+    using Pair = (either std::pair<int, int> or SimplePair)
+    for (int i = 0; i < 100000; ++i)
+        cont.insert(cont.begin(), Pair(i, i)); // Insert to beginning
+
+on MSVC2022 (version 17.3) std::pair\<int, int\> takes about twice the time compared to SimplePair (in a test computer typical run times were around 3.3 s for std::pair and 1.6 s for SimplePair). This seems to be caused by memmove-implementation getting used only for SimplePair: usage is determined in  [_Move_backward_unchecked()](https://github.com/microsoft/STL/blob/ac129e595f762f11551663f1c7fa5f51444a8c6c/stl/inc/xutility#L4258) (which gets called from stack vector::emplace() <- vector::insert()) using internal trait [_Bitcopy_assignable](https://github.com/microsoft/STL/blob/ac129e595f762f11551663f1c7fa5f51444a8c6c/stl/inc/xutility#L4261).
+
+Example of traits values for std::pair\<int,int\> and SimplePair from MSVC2022
+
+    Traits for struct std::pair<int,int>
+    is_trivially_copyable              = 1
+    is_trivially_default_constructible = 0
+    is_trivially_destructible          = 1
+    is_nothrow_constructible           = 1
+    is_nothrow_move_assignable         = 1
+    is_trivially_assignable<T,T>       = 0
+    is_trivially_move_assignable       = 0
+    is_trivially_copy_assignable       = 0
+
+    Traits for struct SimplePair
+    is_trivially_copyable              = 1
+    is_trivially_default_constructible = 0
+    is_trivially_destructible          = 1
+    is_nothrow_constructible           = 1
+    is_nothrow_move_assignable         = 1
+    is_trivially_assignable<T,T>       = 1
+    is_trivially_move_assignable       = 1
+    is_trivially_copy_assignable       = 1
