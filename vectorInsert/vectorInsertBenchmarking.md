@@ -138,16 +138,28 @@ Since MSVC2017, std::is_trivially_copyable_v<std::pair<int,int>> returns true, b
         int second = 0;
     };
     ...
-    using Pair = (either std::pair<int, int> or SimplePair)
+    using Pair = (std::pair<int, int> / std::tuple<int,int> / SimplePair)
+    std::vector<Pair> cont;
+    cont.reserve(100000);
     for (int i = 0; i < 100000; ++i)
         cont.insert(cont.begin(), Pair(i, i)); // Insert to beginning
 
-on MSVC2022 (version 17.3) std::pair\<int, int\> takes about twice the time compared to SimplePair (in a test computer typical run times were around 3.3 s for std::pair and 1.6 s for SimplePair). This seems to be caused by memmove-implementation getting used only for SimplePair: usage is determined in  [_Move_backward_unchecked()](https://github.com/microsoft/STL/blob/ac129e595f762f11551663f1c7fa5f51444a8c6c/stl/inc/xutility#L4258) (which gets called from stack vector::emplace() <- vector::insert()) using internal trait [_Bitcopy_assignable](https://github.com/microsoft/STL/blob/ac129e595f762f11551663f1c7fa5f51444a8c6c/stl/inc/xutility#L4261).
+on MSVC2022 (version 17.3) std::pair\<int, int\> and std::tuple\<int, int\> takes about twice the time compared to SimplePair (in a test computer typical run times were around 3.3 s for std::pair/tuple and 1.6 s for SimplePair, compiled with _cl insertTest.cpp /O2 /EHsc /std:c++17_). This seems to be caused by memmove-implementation getting used only for SimplePair: usage is determined in  [_Move_backward_unchecked()](https://github.com/microsoft/STL/blob/ac129e595f762f11551663f1c7fa5f51444a8c6c/stl/inc/xutility#L4258) (which gets called from stack vector::emplace() <- vector::insert()) using internal trait [_Bitcopy_assignable](https://github.com/microsoft/STL/blob/ac129e595f762f11551663f1c7fa5f51444a8c6c/stl/inc/xutility#L4261).
 
-Example of traits values for std::pair\<int,int\> and SimplePair from MSVC2022
+Some trait values for std::pair\<int,int\>, std::tuple\<int, int\> and SimplePair from MSVC2022
 
     Traits for struct std::pair<int,int>
     is_trivially_copyable              = 1
+    is_trivially_default_constructible = 0
+    is_trivially_destructible          = 1
+    is_nothrow_constructible           = 1
+    is_nothrow_move_assignable         = 1
+    is_trivially_assignable<T,T>       = 0
+    is_trivially_move_assignable       = 0
+    is_trivially_copy_assignable       = 0
+
+    Traits for class std::tuple<int,int>
+    is_trivially_copyable              = 0
     is_trivially_default_constructible = 0
     is_trivially_destructible          = 1
     is_nothrow_constructible           = 1

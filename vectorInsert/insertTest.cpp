@@ -2,6 +2,7 @@
 #include <chrono>
 #include <vector>
 #include <type_traits>
+#include <tuple>
 
 struct SimplePair
 {
@@ -29,23 +30,23 @@ void printTraits()
 int main()
 {
     printTraits<std::pair<int,int>>();
+    printTraits<std::tuple<int,int>>();
     printTraits<SimplePair>();
 
-    std::chrono::high_resolution_clock timer;
-#if 1
     using Pair = std::pair<int, int>;
-#else
-    using Pair = SimplePair;
-#endif
+    //using Pair = std::tuple<int, int>;
+    //using Pair = SimplePair;
+
     const int nInsertCount = 100000;
     std::vector<Pair> cont;
     cont.reserve(nInsertCount);
 
+    std::chrono::high_resolution_clock timer;
     const auto tStart = timer.now();
     for (int i = 0; i < nInsertCount; ++i)
         cont.insert(cont.begin(), Pair(i, i));
 
-    const auto nSum = [&]() { int nSum = 0; for (auto pair : cont) nSum += pair.first + pair.second; return nSum; }();
+    const auto nSum = [&]() { int nSum = 0; for (auto [a, b] : cont) nSum += a + b; return nSum; }();
     const auto tEnd = timer.now();
 
     std::cout << "Time for " << typeid(Pair).name() << ": " << std::chrono::duration<double>(tEnd - tStart).count() << " (sum = " << nSum << ")\n";
