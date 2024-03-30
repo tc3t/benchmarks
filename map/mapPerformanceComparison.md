@@ -1,5 +1,11 @@
 # Performance benchmarking for map-implementations
 
+## Update history
+
+* 2024-03: added example 4
+* 2017-04: added example 3
+* 2017-03: added examples 1 and 2
+
 ## General
 
 This document present some performance aspects related to various map implementations, namely
@@ -8,9 +14,13 @@ This document present some performance aspects related to various map implementa
 * boost::flat_map
 * dfglib::MapVectorAoS
 * dfglib::MapVectorSoA
-* Draft implementations of flat map proposals (only in example 3)
+* Draft implementations of flat map proposals (before std::flat_map) (only in example 3)
 
-Instead of looking at performance as function of element count, the focus is to give concrete examples at some arbitrarily chosen element count and use case. All code was compiled with 32-bit MSVC2015 update 3 and boost 1.61.0.
+Instead of looking at performance as function of element count, the focus is to give concrete examples at some arbitrarily chosen element count and use case.
+
+Compilers and tools used:
+* Examples 1-3: code was compiled with MSVC2015 update 3 for x86 (32-bit), boost 1.61.0
+* Example 4: code was compiled with MSVC 2022.9 for amd64, boost version 1.81
 
 Note that while these benchmarks compare maps, results of tests that only use key's are probably more or less directly translatable to corresponding set-implementations.
 
@@ -20,7 +30,7 @@ Performance benchmarking is a tricky field and while the results provided are ma
 
 ---
 
-## 1. Example: Insert performance with \<int, int\> maps
+## 1. Example: Insert performance with \<int, int\> maps to random positions
 
 This benchmarked insert time of 50000 random integers which resulted to map of size 49936 (i.e. 64 ints were duplicates). The detailed  test code, that uses revision [06f3ceb678b9e39f0462d40378a11fd18145dee3](https://github.com/tc3t/dfglib/tree/06f3ceb678b9e39f0462d40378a11fd18145dee3) of dfglib, can be found from [here](dfgTestContMapVectorPerformance.cpp), but essentially the code measured the time taken by the following loop:
 ```C++
@@ -171,6 +181,71 @@ Notes:
 * ...but it can actually also be slower to use template type for find() instead of key_type as demonstrated by the performance characteristics of operator< (i.e. comparing two std::string's can be much faster than comparing std::string and const char* if the implementation recalculates length of const char* on each comparison). This is quite interesting: the C++14 template find() can actually also reduce performance depending on the map type and data.
 * There are big differences between performances of flat map implementations reminding that the data structure is just one part of the puzzle.
 * These results are for a specific type of data and run on a single compiler. Also the seemingly better results of MapVector compared to other flat_maps are the result of a 'std::string \& const char\*' -specific optimization: the effect depends on data.
+
+---
+
+## 4. Example: Inserting in order: times and memory usage
+
+Added 2024-03.
+
+### 4.1 Overview
+
+This example examines map performance characteristics for case where int->int map is filled with pre-sorted data:
+1. How long it takes to push 10 million int-to-int pairs to map?
+2. How much memory such map uses?
+3. How long it takes to destroy the map?
+
+Simplified version of the [code](mapSimpleInsert/mapSimpleInsert.cpp):
+```C++
+{
+    Map_T m;
+    m.reserve(10000000); // Reserving memory if map has reserve()
+    // 1. How long this insert loop takes
+    for (int i = 0; i < 10000000; ++i)
+        inserter(m, i, i);
+    // 2. How much memory is in use at this point
+}
+// 3. How long it took to delete objects in the scope.
+
+```
+
+### 4.2 Numerical results
+
+| Map type | Insert time | Deletion time | Total time | Memory usage |
+| -------- | ----------- | ------------- | ---------- | ------------ |
+| boost::flat_map (*) | 1.0 (150 ms) | 1.0 (2.80 ms) | 1.0 (154 ms) | 1.0 (85.1 MB) |
+| dfglib::MapVectorSoA | 1.21 (182 ms) | 1.04 (2.91 ms) | 1.20 (185 ms) | 1.0 (85.1 MB) |
+| dfglib::MapVectorAoS | 1.47 (221 ms) | 1.08 (3.03 ms) | 1.45 (224 ms) | 1.0 (85.1 MB) | 
+| std::map | 7.07 (1060 ms) | 88 (247 ms) | 8.51 (1310 ms) | 5.73 (488 MB) |
+| std::unordered_map | 5.98 (897 ms) | 88 (247 ms) | 7.40 (1140 ms) | 7.00 (596 MB) |
+
+(*) Boost version 1.81
+
+Raw data files available in [results.csv](mapSimpleInsert/results.csv) and [results_summary.csv](mapSimpleInsert/results_summary.csv).
+
+And the same in chart-form:
+
+![alt text](charts/example4_all.png)
+
+### 4.3 Discussion
+
+* std::map and std::unordered_map were about 7-8 times slower in total:
+    * Inserting sequential keys was 6-7 times slower for std::map/unordered_map than for flat maps.
+    * Unlike with flat maps, also deleting a big std::map/unordered_map took significant amount of time - more than what it took to add items to a reserved flat map.
+* std::map/unordered_map took around 5-7 times more memory than flat maps.
+
+While std::map/unordered_map are notably faster for inserts to random positions as shown in example 1, factor of 5-7 in memory use can be significant for big maps. So even when random position inserts are important, one may need to evaluate if application can affort it if it means that memory consumption is e.g. over 1 GB instead of 200 MB. But if map performance characteristics are crucial, then possibly none of the map types evaluated here is the best candidate, but e.g. memory use characteristic in such data structure should probably be much closer to those of flat map instead of std::map/unordered_map.
+
+---
+
+## References and related content
+
+* std::flat_map (since C++23): https://en.cppreference.com/w/cpp/container/flat_map
+* Flat map paper R9: https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2022/p0429r9.pdf
+    * "the latest paper approved by LEWG" providing design rationales: https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0429r3.pdf
+* A paper from 2019 discussing issues in flat map proposal at that time: https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p1727r0.pdf
+
+---
 
 ## Miscellaneous
 

@@ -1,0 +1,3 @@
+[submodule "map/mapSimpleInsert/dfglib"]
+	path = map/mapSimpleInsert/dfglib
+	url = https://github.com/tc3t/dfglib.git
