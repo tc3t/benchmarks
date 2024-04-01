@@ -236,6 +236,8 @@ And the same in chart-form:
 
 While std::map/unordered_map are notably faster for inserts to random positions as shown in example 1, factor of 5-7 in memory use can be significant for big maps. So even when random position inserts are important, one may need to evaluate if application can affort it if it means that memory consumption is e.g. over 1 GB instead of 200 MB. But if map performance characteristics are crucial, then possibly none of the map types evaluated here is the best candidate, but e.g. memory use characteristic in such data structure should probably be much closer to those of flat map instead of std::map/unordered_map.
 
+And worth emphasizing that these figures are just from one particular use scenario. For example in addition to insert pattern effects, relative memory usage differences are dependent on data types: with bigger elements relative overhead is smaller in non-flat maps. Also if map data types have different sizes (e.g. int -> char, int64 -> int32), SoA-style flat maps are even better in memory usage as they do not need to pay for padding overhead that pair-based maps have: for example with int64->int32 (8+4=12 bytes) pair would be padded to have size 16, so padding introduces 33 % space overhead.
+
 ---
 
 ## References and related content
