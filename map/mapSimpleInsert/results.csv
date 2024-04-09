@@ -24,3 +24,13 @@
 2024-03-30;MapVectorAoS<int, int>;0.227686;1915194;0.0030323;0.230779;85.11 MB;MSVC_2022.9;C++20 (202002L);release
 2024-03-30;MapVectorAoS<int, int>;0.221664;1915194;0.0027232;0.224443;85.12 MB;MSVC_2022.9;C++20 (202002L);release
 2024-03-30;MapVectorAoS<int, int>;0.221394;1915194;0.0030377;0.224489;85.12 MB;MSVC_2022.9;C++20 (202002L);release
+2024-04-09;std::unordered_map<int, int>;0.934452;1915194;0.264421;1.19894;595.8 MB;MSVC_2022.9;C++20 (202002L);release
+2024-04-09;std::unordered_map<int, int>;0.98936;1915194;0.25602;1.24546;595.8 MB;MSVC_2022.9;C++20 (202002L);release
+2024-04-09;std::unordered_map<int, int>;0.940735;1915194;0.247179;1.18798;595.8 MB;MSVC_2022.9;C++20 (202002L);release
+2024-04-09;std::unordered_map<int, int>;0.96734;1915194;0.252433;1.21983;595.8 MB;MSVC_2022.9;C++20 (202002L);release
+2024-04-09;std::unordered_map<int, int>;0.960868;1915194;0.286564;1.24749;595.8 MB;MSVC_2022.9;C++20 (202002L);release
+2024-04-09;std::unordered_map<int, int> (not reserved);2.16096;1915194;0.622107;2.78313;595.8 MB;MSVC_2022.9;C++20 (202002L);release
+2024-04-09;std::unordered_map<int, int> (not reserved);2.14789;1915194;0.622234;2.77018;595.8 MB;MSVC_2022.9;C++20 (202002L);release
+2024-04-09;std::unordered_map<int, int> (not reserved);2.14205;1915194;0.62002;2.76213;595.8 MB;MSVC_2022.9;C++20 (202002L);release
+2024-04-09;std::unordered_map<int, int> (not reserved);2.16457;1915194;0.627598;2.79223;595.8 MB;MSVC_2022.9;C++20 (202002L);release
+2024-04-09;std::unordered_map<int, int> (not reserved);2.16271;1915194;0.626633;2.7894;595.8 MB;MSVC_2022.9;C++20 (202002L);release

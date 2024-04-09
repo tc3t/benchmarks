@@ -2,7 +2,8 @@
 
 ## Update history
 
-* 2024-03: added example 4
+* 2024-03-30: added example 4: 10 million in-order inserts to int->int -map: time and memory usage
+    * 2024-04-09: added std::unordered_map without reserve() to comparisons
 * 2017-04: added example 3
 * 2017-03: added examples 1 and 2
 
@@ -190,7 +191,7 @@ Added 2024-03.
 
 ### 4.1 Overview
 
-This example examines map performance characteristics for case where int->int map is filled with pre-sorted data:
+This example examines map performance characteristics for case where int->int map is filled in-order:
 1. How long it takes to push 10 million int-to-int pairs to map?
 2. How much memory such map uses?
 3. How long it takes to destroy the map?
@@ -217,7 +218,8 @@ Simplified version of the [code](mapSimpleInsert/mapSimpleInsert.cpp):
 | dfglib::MapVectorSoA | 1.21 (182 ms) | 1.04 (2.91 ms) | 1.20 (185 ms) | 1.0 (85.1 MB) |
 | dfglib::MapVectorAoS | 1.47 (221 ms) | 1.08 (3.03 ms) | 1.45 (224 ms) | 1.0 (85.1 MB) | 
 | std::map | 7.07 (1060 ms) | 88 (247 ms) | 8.51 (1310 ms) | 5.73 (488 MB) |
-| std::unordered_map | 5.98 (897 ms) | 88 (247 ms) | 7.40 (1140 ms) | 7.00 (596 MB) |
+| std::unordered_map (reserved) | 5.98 (897 ms) | 88 (247 ms) | 7.40 (1140 ms) | 7.00 (596 MB) |
+| std::unordered_map (not reserved) | 14.4 (2160 ms) | 222 (622 ms) | 18 (2780 ms) | 7.00 (596 MB) |
 
 (*) Boost version 1.81
 
@@ -231,6 +233,7 @@ And the same in chart-form:
 
 * std::map and std::unordered_map were about 7-8 times slower in total:
     * Inserting sequential keys was 6-7 times slower for std::map/unordered_map than for flat maps.
+        * Without reserve in std::unordered_map, it was around 18 times slower than flat_map.
     * Unlike with flat maps, also deleting a big std::map/unordered_map took significant amount of time - more than what it took to add items to a reserved flat map.
 * std::map/unordered_map took around 5-7 times more memory than flat maps.
 
@@ -246,6 +249,9 @@ And worth emphasizing that these figures are just from one particular use scenar
 * Flat map paper R9: https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2022/p0429r9.pdf
     * "the latest paper approved by LEWG" providing design rationales: https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0429r3.pdf
 * A paper from 2019 discussing issues in flat map proposal at that time: https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p1727r0.pdf
+* Stackoverflow question "boost::flat_map and its performance compared to map and unordered_map" asked in 2014, answers include a lot of benchmarks: https://stackoverflow.com/questions/21166675/boostflat-map-and-its-performance-compared-to-map-and-unordered-map
+* Stackoverflow question "Is there any difference between map and unordered_map in c++ in terms of memory usage?" asked in  2019: https://stackoverflow.com/questions/56438738/is-there-any-difference-between-map-and-unordered-map-in-c-in-terms-of-memory
+* "Should you be using something instead of what you should use instead?" https://scottmeyers.blogspot.com/2015/09/should-you-be-using-something-instead.html
 
 ---
 
