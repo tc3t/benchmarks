@@ -1,0 +1,13 @@
+﻿Map type;Insert time;Delete time;Total time;Memory usage;Compiler;Standard library
+boost::flat_map;1.47 (242 ms);1.03 (0.157 ms);1.47 (242 ms);1.01 (86 MB);GCC_11.3.0;libstdc++ ver 11
+boost::flat_map;1.81 (297 ms);1.00 (0.152 ms);1.81 (297 ms);1.00 (85 MB);Clang_14.0.0;libc++ ver 14000
+MapVectorSoA;1.09 (179 ms);1.87 (0.285 ms);1.09 (179 ms);1.01 (86 MB);GCC_11.3.0;libstdc++ ver 11
+MapVectorSoA;2.03 (333 ms);1.29 (0.197 ms);2.03 (333 ms);1.00 (85 MB);Clang_14.0.0;libc++ ver 14000
+MapVectorAoS;1.00 (164 ms);1.26 (0.192 ms);1.00 (164 ms);1.01 (86 MB);GCC_11.3.0;libstdc++ ver 11
+MapVectorAoS;1.71 (280 ms);1.01 (0.154 ms);1.71 (281 ms);1.00 (85 MB);Clang_14.0.0;libc++ ver 14000
+std::map;17.05 (2800 ms);774.72 (118 ms);17.74 (2920 ms);5.70 (486 MB);GCC_11.3.0;libstdc++ ver 11
+std::map;16.41 (2690 ms);723.33 (110 ms);17.06 (2800 ms);5.69 (485 MB);Clang_14.0.0;libc++ ver 14000
+std::unordered_map (reserved);1.19 (195 ms);369.02 (56.2 ms);1.53 (251 ms);4.80 (409 MB);GCC_11.3.0;libstdc++ ver 11
+std::unordered_map (reserved);1.22 (200 ms);337.58 (51.4 ms);1.53 (252 ms);4.75 (405 MB);Clang_14.0.0;libc++ ver 14000
+std::unordered_map (not reserved);1.63 (267 ms);377.90 (57.6 ms);1.97 (324 ms);4.96 (423 MB);GCC_11.3.0;libstdc++ ver 11
+std::unordered_map, (not reserved);1.55 (254 ms);361.64 (55.1 ms);1.88 (309 ms);5.05 (430 MB);Clang_14.0.0;libc++ ver 14000

@@ -1,0 +1,61 @@
+﻿Run time;Map type;Insert duration;Random element;Delete duration;Total duration;Peak memory working set;Peak virtual memory usage;Compiler;C++ standard version;Build type;Standard library;Boost version
+2024-04-20;std::map<int,int>;2.83875;1915194;0.103698;2.94252;;486.1 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;std::map<int,int>;2.73189;486191;0.0953631;2.8273;;485.1 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74
+2024-04-20;std::unordered_map<int, int>;0.19023;1915194;0.0531784;0.243458;;409.1 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;std::unordered_map<int, int>;0.204172;486191;0.0490151;0.253233;;405.1 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74
+2024-04-20;std::unordered_map<int, int> (not reserved);0.266762;1915194;0.0575694;0.324385;;423.1 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;std::unordered_map<int, int> (not reserved);0.254283;486191;0.0550926;0.309415;;430.4 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74
+2024-04-20;boost::flat_map<int, int>;0.236926;1915194;0.000103418;0.23708;;86.21 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;boost::flat_map<int, int>;0.298862;486191;0.0001505;0.299051;;85.22 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74
+2024-04-20;MapVectorSoA<int, int>;0.179181;1915194;0.000195271;0.179423;;86.21 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;MapVectorSoA<int, int>;0.33732;486191;0.000149022;0.337505;;85.22 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74
+2024-04-20;MapVectorAoS<int, int>;0.157253;1915194;0.000156599;0.157461;;86.21 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;MapVectorAoS<int, int>;0.280542;486191;0.000154448;0.280734;;85.22 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74
+2024-04-20;std::map<int,int>;2.77895;1915194;0.0938216;2.87283;;486.1 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;std::map<int,int>;2.65294;486191;0.0891337;2.74212;;485.1 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74
+2024-04-20;std::unordered_map<int, int>;0.193612;1915194;0.0631067;0.256768;;409.1 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;std::unordered_map<int, int>;0.200295;486191;0.0514283;0.251773;;405.1 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74
+2024-04-20;std::unordered_map<int, int> (not reserved);0.257522;1915194;0.0622444;0.319821;;423.1 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;std::unordered_map<int, int> (not reserved);0.252001;486191;0.0481134;0.300161;;430.4 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74
+2024-04-20;boost::flat_map<int, int>;0.24286;1915194;0.000172427;0.243088;;86.21 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;boost::flat_map<int, int>;0.292169;486191;0.000168949;0.292378;;85.22 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74
+2024-04-20;MapVectorSoA<int, int>;0.178596;1915194;0.000285135;0.178935;;86.21 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;MapVectorSoA<int, int>;0.332634;486191;0.000255662;0.332957;;85.22 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74
+2024-04-20;MapVectorAoS<int, int>;0.168788;1915194;0.000178973;0.169019;;86.21 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;MapVectorAoS<int, int>;0.27315;486191;0.000184294;0.27338;;85.22 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74
+2024-04-20;std::map<int,int>;2.79758;1915194;0.118023;2.91567;;486.1 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;std::map<int,int>;2.69298;486191;0.110193;2.80322;;485.1 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74
+2024-04-20;std::unordered_map<int, int>;0.197707;1915194;0.0573057;0.255076;;409.1 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;std::unordered_map<int, int>;0.200066;486191;0.0541163;0.25423;;405.1 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74
+2024-04-20;std::unordered_map<int, int> (not reserved);0.267766;1915194;0.0554364;0.323254;;423.1 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;std::unordered_map<int, int> (not reserved);0.277193;486191;0.0554329;0.332671;;430.4 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74
+2024-04-20;boost::flat_map<int, int>;0.242988;1915194;0.000134806;0.243169;;86.21 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;boost::flat_map<int, int>;0.307001;486191;9.2528e-05;0.307134;;85.22 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74
+2024-04-20;MapVectorSoA<int, int>;0.184484;1915194;0.00022125;0.184753;;86.21 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;MapVectorSoA<int, int>;0.340057;486191;0.000239372;0.34034;;85.22 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74
+2024-04-20;MapVectorAoS<int, int>;0.156032;1915194;0.000147738;0.156228;;86.21 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;MapVectorAoS<int, int>;0.285679;486191;0.000152946;0.285872;;85.22 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74
+2024-04-20;std::map<int,int>;2.85532;1915194;0.100328;2.95571;;486.1 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;std::map<int,int>;2.69652;486191;0.0948644;2.79144;;485.1 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74
+2024-04-20;std::unordered_map<int, int>;0.194504;1915194;0.0562171;0.250768;;409.1 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;std::unordered_map<int, int>;0.203332;486191;0.0496288;0.253007;;405.1 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74
+2024-04-20;std::unordered_map<int, int> (not reserved);0.271832;1915194;0.0624016;0.334287;;423.1 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;std::unordered_map<int, int> (not reserved);0.251322;486191;0.052887;0.304253;;430.4 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74
+2024-04-20;boost::flat_map<int, int>;0.239842;1915194;0.000135801;0.240024;;86.21 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;boost::flat_map<int, int>;0.297255;486191;0.000152342;0.297445;;85.22 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74
+2024-04-20;MapVectorSoA<int, int>;0.17801;1915194;0.00016276;0.178222;;86.21 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;MapVectorSoA<int, int>;0.333259;486191;0.000196807;0.333496;;85.22 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74
+2024-04-20;MapVectorAoS<int, int>;0.164071;1915194;0.000192311;0.164315;;86.21 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;MapVectorAoS<int, int>;0.281604;486191;0.000119237;0.28176;;85.22 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74
+2024-04-20;std::map<int,int>;2.73285;1915194;0.0992749;2.83219;;486.1 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;std::map<int,int>;2.60572;486191;0.101041;2.70681;;485.1 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74
+2024-04-20;std::unordered_map<int, int>;0.195441;1915194;0.0540821;0.249576;;409.1 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;std::unordered_map<int, int>;0.196093;486191;0.0446716;0.240808;;405.1 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74
+2024-04-20;std::unordered_map<int, int> (not reserved);0.265771;1915194;0.0627382;0.328562;;423.1 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;std::unordered_map<int, int> (not reserved);0.266715;486191;0.0511387;0.317896;;430.4 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74
+2024-04-20;boost::flat_map<int, int>;0.241854;1915194;0.000156779;0.242062;;86.21 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;boost::flat_map<int, int>;0.29282;486191;0.000162274;0.293018;;85.22 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74
+2024-04-20;MapVectorSoA<int, int>;0.17365;1915194;0.000300369;0.174003;;86.21 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;MapVectorSoA<int, int>;0.327978;486191;0.000226851;0.328249;;85.22 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74
+2024-04-20;MapVectorAoS<int, int>;0.166293;1915194;0.000100359;0.166442;;86.21 MB;GCC_11.3.0;C++20 (202002L);release;libstdc++ ver 11;1_74
+2024-04-20;MapVectorAoS<int, int>;0.272019;486191;0.000180335;0.272241;;85.22 MB;Clang_14.0.0;C++20 (202002L);release;libc++ ver 14000;1_74

@@ -4,6 +4,7 @@
 
 * 2024-03-30: added example 4: 10 million in-order inserts to int->int -map: time and memory usage
     * 2024-04-09: added std::unordered_map without reserve() to comparisons
+    * 2024-04-21: added results from GCC and Clang.
 * 2017-04: added example 3
 * 2017-03: added examples 1 and 2
 
@@ -21,13 +22,17 @@ Instead of looking at performance as function of element count, the focus is to 
 
 Compilers and tools used:
 * Examples 1-3: code was compiled with MSVC2015 update 3 for x86 (32-bit), boost 1.61.0
-* Example 4: code was compiled with MSVC 2022.9 for amd64, boost version 1.81
+* Example 4: documented in the example itself
 
-Note that while these benchmarks compare maps, results of tests that only use key's are probably more or less directly translatable to corresponding set-implementations.
+Note that while these benchmarks compare maps, results of tests that only use key's are probably more or less applicable to corresponding set-implementations.
 
 ### Disclaimer
 
-Performance benchmarking is a tricky field and while the results provided are made with the intention of being correct enough to aid evaluating the performance in some special use cases, the reader should be aware that the author can not guarantee the accuracy of the results or even the methological correctness. If you intend to make decision based on the results presented here, it's strongly recommended to personally verify the used test code. If flaws are detected, reports and corrections would be highly appreciated.
+Benchmarking is a tricky field and while the results provided are made with the intention of being correct enough to provide insights on some performance aspects, note that:
+
+* Cases concentrate on isolated examples and are not to be over-generalized
+* Compilers, standard libraries etc. can have a major effect on the results
+* Author is not an benchmarking expert
 
 ---
 
@@ -199,7 +204,7 @@ This example examines map performance characteristics for case where int->int ma
 Simplified version of the [code](mapSimpleInsert/mapSimpleInsert.cpp):
 ```C++
 {
-    Map_T m;
+    Map_T<int, int> m;
     m.reserve(10000000); // Reserving memory if map has reserve()
     // 1. How long this insert loop takes
     for (int i = 0; i < 10000000; ++i)
@@ -211,6 +216,10 @@ Simplified version of the [code](mapSimpleInsert/mapSimpleInsert.cpp):
 ```
 
 ### 4.2 Numerical results
+
+#### 4.2.1 MSVC 2022.9
+
+Run on Windows 11, x86-64
 
 | Map type | Insert time | Deletion time | Total time | Memory usage |
 | -------- | ----------- | ------------- | ---------- | ------------ |
@@ -225,19 +234,53 @@ Simplified version of the [code](mapSimpleInsert/mapSimpleInsert.cpp):
 
 Raw data files available in [results.csv](mapSimpleInsert/results.csv) and [results_summary.csv](mapSimpleInsert/results_summary.csv).
 
+![alt text](charts/example4_msvc_all.png)
+
+#### 4.2.2 GCC & Clang
+
+Run under WSL Ubuntu 22.04 in Windows 11 (the same machine as in MSVC case). All map-flavours were compiled to separate files and run 5 times in a loop with logic of [run_tests.sh](mapSimpleInsert/run_tests.sh).
+
+<!-- Table generated from results_gcc_clang_summary_for_md.csv
+     with csv2md (https://www.npmjs.com/package/csv2md)
+     using command: csv2md --pretty --csvDelimiter ";" results_gcc_clang_summary_for_md.csv
+ -->
+| Map type                           | Insert time     | Delete time      | Total time      | Memory usage  | Compiler     | Standard library |
+|------------------------------------|-----------------|------------------|-----------------|---------------|--------------|------------------|
+| boost::flat_map                    | 1.47 (242 ms)   | 1.03 (0.157 ms)  | 1.47 (242 ms)   | 1.01 (86 MB)  | GCC_11.3.0   | libstdc++ ver 11 |
+| boost::flat_map                    | 1.81 (297 ms)   | 1.00 (0.152 ms)  | 1.81 (297 ms)   | 1.00 (85 MB)  | Clang_14.0.0 | libc++ ver 14000 |
+| MapVectorSoA                       | 1.09 (179 ms)   | 1.87 (0.285 ms)  | 1.09 (179 ms)   | 1.01 (86 MB)  | GCC_11.3.0   | libstdc++ ver 11 |
+| MapVectorSoA                       | 2.03 (333 ms)   | 1.29 (0.197 ms)  | 2.03 (333 ms)   | 1.00 (85 MB)  | Clang_14.0.0 | libc++ ver 14000 |
+| MapVectorAoS                       | 1.00 (164 ms)   | 1.26 (0.192 ms)  | 1.00 (164 ms)   | 1.01 (86 MB)  | GCC_11.3.0   | libstdc++ ver 11 |
+| MapVectorAoS                       | 1.71 (280 ms)   | 1.01 (0.154 ms)  | 1.71 (281 ms)   | 1.00 (85 MB)  | Clang_14.0.0 | libc++ ver 14000 |
+| std::map                           | 17.05 (2800 ms) | 774.72 (118 ms)  | 17.74 (2920 ms) | 5.70 (486 MB) | GCC_11.3.0   | libstdc++ ver 11 |
+| std::map                           | 16.41 (2690 ms) | 723.33 (110 ms)  | 17.06 (2800 ms) | 5.69 (485 MB) | Clang_14.0.0 | libc++ ver 14000 |
+| std::unordered_map (reserved)      | 1.19 (195 ms)   | 369.02 (56.2 ms) | 1.53 (251 ms)   | 4.80 (409 MB) | GCC_11.3.0   | libstdc++ ver 11 |
+| std::unordered_map (reserved)      | 1.22 (200 ms)   | 337.58 (51.4 ms) | 1.53 (252 ms)   | 4.75 (405 MB) | Clang_14.0.0 | libc++ ver 14000 |
+| std::unordered_map (not reserved)  | 1.63 (267 ms)   | 377.90 (57.6 ms) | 1.97 (324 ms)   | 4.96 (423 MB) | GCC_11.3.0   | libstdc++ ver 11 |
+| std::unordered_map, (not reserved) | 1.55 (254 ms)   | 361.64 (55.1 ms) | 1.88 (309 ms)   | 5.05 (430 MB) | Clang_14.0.0 | libc++ ver 14000 |
+
+Boost version 1.74
+
+Raw data files available in [results_gcc_clang.csv](mapSimpleInsert/results_gcc_clang.csv) and [results_gcc_clang_summary.csv](mapSimpleInsert/results_gcc_clang_summary.csv).
+
 And the same in chart-form:
 
-![alt text](charts/example4_all.png)
+![alt text](charts/example4_gcc_clang_all.png)
+
 
 ### 4.3 Discussion
 
-* std::map and std::unordered_map were about 7-8 times slower in total:
-    * Inserting sequential keys was 6-7 times slower for std::map/unordered_map than for flat maps.
-        * Without reserve in std::unordered_map, it was around 18 times slower than flat_map.
-    * Unlike with flat maps, also deleting a big std::map/unordered_map took significant amount of time - more than what it took to add items to a reserved flat map.
-* std::map/unordered_map took around 5-7 times more memory than flat maps.
+* While there were major differences between different compilers and standard libraries, the following were common patterns:
+    * std::map was clearly the slowest: 8-17 times slower than fastest flat map alternative.
+    * All non-flat maps used a lot more memory than flat maps: around 4-8 times more.
+    * With non-flat maps, also deletion of the map-object can take significant time.
+* Results of std::unordered_map varied a lot between different compilers:
+    * On MSVC:
+        * std::unordered_map was similar to std::map in performance and memory usage. In addition reserve() had major effect on the results.
+    * On GCC and Clang:
+        * Performance of std::unordered_map was about the same as flat maps and effect of reserve() was much smaller than in MSVC.
 
-While std::map/unordered_map are notably faster for inserts to random positions as shown in example 1, factor of 5-7 in memory use can be significant for big maps. So even when random position inserts are important, one may need to evaluate if application can affort it if it means that memory consumption is e.g. over 1 GB instead of 200 MB. But if map performance characteristics are crucial, then possibly none of the map types evaluated here is the best candidate, but e.g. memory use characteristic in such data structure should probably be much closer to those of flat map instead of std::map/unordered_map.
+While std::map/unordered_map are notably faster for inserts to random positions as shown in example 1, factor of 4-8 in memory use can be significant for big maps. So even when performance of random position inserts is important, may need to evaluate if application can affort it if it means that memory consumption is e.g. over 1 GB instead of 200 MB. But if map performance characteristics are crucial, then maybe none of the map types evaluated here is the best candidate, but e.g. memory use in such data structure should probably be much closer to that of flat map instead of std::map/unordered_map.
 
 And worth emphasizing that these figures are just from one particular use scenario. For example in addition to insert pattern effects, relative memory usage differences are dependent on data types: with bigger elements relative overhead is smaller in non-flat maps. Also if map data types have different sizes (e.g. int -> char, int64 -> int32), SoA-style flat maps are even better in memory usage as they do not need to pay for padding overhead that pair-based maps have: for example with int64->int32 (8+4=12 bytes) pair would be padded to have size 16, so padding introduces 33 % space overhead.
 
@@ -248,6 +291,7 @@ And worth emphasizing that these figures are just from one particular use scenar
 * std::flat_map (since C++23): https://en.cppreference.com/w/cpp/container/flat_map
 * Flat map paper R9: https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2022/p0429r9.pdf
     * "the latest paper approved by LEWG" providing design rationales: https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0429r3.pdf
+    * Earlier version with some performance charts: https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0429r1.pdf
 * A paper from 2019 discussing issues in flat map proposal at that time: https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p1727r0.pdf
 * Stackoverflow question "boost::flat_map and its performance compared to map and unordered_map" asked in 2014, answers include a lot of benchmarks: https://stackoverflow.com/questions/21166675/boostflat-map-and-its-performance-compared-to-map-and-unordered-map
 * Stackoverflow question "Is there any difference between map and unordered_map in c++ in terms of memory usage?" asked in  2019: https://stackoverflow.com/questions/56438738/is-there-any-difference-between-map-and-unordered-map-in-c-in-terms-of-memory

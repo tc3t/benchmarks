@@ -1,0 +1,13 @@
+﻿Run time;Map type;Insert duration;Random element;Delete duration;Total duration;Peak virtual memory usage (MB);Compiler;Standard library
+2024-04-20;map, GCC;2.79758;1915194;0.118023;2.91567;486.1;GCC_11.3.0;libstdc++ ver 11
+2024-04-20;map, Clang;2.69298;486191;0.110193;2.80322;485.1;Clang_14.0.0;libc++ ver 14000
+2024-04-20;unordered_map, R, GCC;0.194504;1915194;0.0562171;0.250768;409.1;GCC_11.3.0;libstdc++ ver 11
+2024-04-20;unordered_map, R, Clang;0.200295;486191;0.0514283;0.251773;405.1;Clang_14.0.0;libc++ ver 14000
+2024-04-20;unordered_map, N-R., GCC;0.266762;1915194;0.0575694;0.324385;423.1;GCC_11.3.0;libstdc++ ver 11
+2024-04-20;unordered_map, N-R., Clang;0.254283;486191;0.0550926;0.309415;430.4;Clang_14.0.0;libc++ ver 14000
+2024-04-20;boost::flat_map, GCC;0.241854;1915194;0.000156779;0.242062;86.21;GCC_11.3.0;libstdc++ ver 11
+2024-04-20;boost::flat_map, Clang;0.297255;486191;0.000152342;0.297445;85.22;Clang_14.0.0;libc++ ver 14000
+2024-04-20;MapVectorSoA, GCC;0.178596;1915194;0.000285135;0.178935;86.21;GCC_11.3.0;libstdc++ ver 11
+2024-04-20;MapVectorSoA, Clang;0.333259;486191;0.000196807;0.333496;85.22;Clang_14.0.0;libc++ ver 14000
+2024-04-20;MapVectorAoS, GCC;0.164071;1915194;0.000192311;0.164315;86.21;GCC_11.3.0;libstdc++ ver 11
+2024-04-20;MapVectorAoS, Clang;0.280542;486191;0.000154448;0.280734;85.22;Clang_14.0.0;libc++ ver 14000

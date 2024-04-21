@@ -56,17 +56,25 @@ void testMap(Inserter_T inserter)
         std::cout << timerDestroy.elapsedWallSeconds() << cDelim;
     }
     std::cout << timerTotal.elapsedWallSeconds() << cDelim;
-    const auto peakMemUsage = ::DFG_MODULE_NS(os)::getMemoryUsage_process().workingSetPeakSize();
-    if (peakMemUsage.has_value())
-        std::cout << ::DFG_MODULE_NS(str)::ByteCountFormatter_metric(*peakMemUsage);
+    const auto memInfo = ::DFG_MODULE_NS(os)::getMemoryUsage_process();
+    const auto peakWorkingSet = memInfo.workingSetPeakSize();
+    const auto peakVm = memInfo.virtualMemoryPeak();
+    if (peakWorkingSet.has_value())
+        std::cout << ::DFG_MODULE_NS(str)::ByteCountFormatter_metric(*peakWorkingSet);
+    std::cout << cDelim;
+    if (peakVm.has_value())
+        std::cout << ::DFG_MODULE_NS(str)::ByteCountFormatter_metric(*peakVm);
     std::cout << cDelim << dfg::getBuildTimeDetailStr<dfg::BuildTimeDetail_compilerAndShortVersion>();
     std::cout << cDelim << dfg::getBuildTimeDetailStr<dfg::BuildTimeDetail_cppStandardVersion>();
-    std::cout << cDelim << dfg::getBuildTimeDetailStr<dfg::BuildTimeDetail_buildDebugReleaseType>() << '\n';
+    std::cout << cDelim << dfg::getBuildTimeDetailStr<dfg::BuildTimeDetail_buildDebugReleaseType>();
+    std::cout << cDelim << dfg::getBuildTimeDetailStr<dfg::BuildTimeDetail_standardLibrary>();
+    std::cout << cDelim << dfg::getBuildTimeDetailStr<dfg::BuildTimeDetail_boostVersion>();
+    std::cout << '\n';
 }
 
 int main()
 {
-    std::cout << "Run time;Map type;Insert duration;Random element;Delete duration;Total duration;Peak memory usage;Compiler;C++ standard version;Build type\n";
+    std::cout << "Run time;Map type;Insert duration;Random element;Delete duration;Total duration;Peak memory working set;Peak virtual memory usage;Compiler;C++ standard version;Build type;Standard library;Boost version\n";
     testMap<std::map<int, int>>([](auto& m, auto a, auto b) { m.insert(std::pair(a, b)); });
     //testMap<std::unordered_map<int, int>>([](auto& m, auto a, auto b) { m.insert(std::pair(a, b)); });
     //testMap<std::unordered_map<int, int>, false>([](auto& m, auto a, auto b) { m.insert(std::pair(a, b)); });
