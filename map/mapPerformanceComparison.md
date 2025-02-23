@@ -32,7 +32,7 @@ Benchmarking is a tricky field and while the results provided are made with the 
 
 * Cases concentrate on isolated examples and are not to be over-generalized
 * Compilers, standard libraries etc. can have a major effect on the results
-* Author is not an benchmarking expert
+* Author is not a benchmarking expert
 
 ---
 
@@ -296,6 +296,9 @@ And worth emphasizing that these figures are just from one particular use scenar
 * Stackoverflow question "boost::flat_map and its performance compared to map and unordered_map" asked in 2014, answers include a lot of benchmarks: https://stackoverflow.com/questions/21166675/boostflat-map-and-its-performance-compared-to-map-and-unordered-map
 * Stackoverflow question "Is there any difference between map and unordered_map in c++ in terms of memory usage?" asked in  2019: https://stackoverflow.com/questions/56438738/is-there-any-difference-between-map-and-unordered-map-in-c-in-terms-of-memory
 * "Should you be using something instead of what you should use instead?" https://scottmeyers.blogspot.com/2015/09/should-you-be-using-something-instead.html
+* Wikipedia article about AoS and SoA: https://en.wikipedia.org/wiki/AoS_and_SoA
+* Abseil "Performance Tip of the Week #62: Identifying and reducing memory bandwidth needs": https://abseil.io/fast/62
+* "An Extensive Benchmark of C and C++ Hash Tables" (originally published 29 May 2024) https://jacksonallan.github.io/c_cpp_hash_tables_benchmark/
 
 ---
 
